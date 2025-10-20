@@ -28,9 +28,9 @@ public class AuthController {
     }
 
     public void register(String name, String email, String password, String roleName) {
-        boolean success = userService.registerUser(name, email, password, roleName);
+        Users success = userService.registerUser(name, email, password, roleName);
 
-        if (success) {
+        if (success != null) {
             JOptionPane.showMessageDialog(null, "User registered successfully!");
         } else {
             JOptionPane.showMessageDialog(null, "Failed to register user. Email may already exist or role is invalid.");

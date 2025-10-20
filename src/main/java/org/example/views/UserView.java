@@ -84,6 +84,7 @@ public class UserView {
     }
 
     private void editBook() {
+        List<Book> books = controller.viewAllBooks();
         String idStr = JOptionPane.showInputDialog("Enter Book ID to edit:");
         if (idStr == null || idStr.isEmpty()) return;
 
@@ -114,6 +115,7 @@ public class UserView {
     }
 
     private void deleteBook() {
+        List<Book> books = controller.viewAllBooks();
         String idStr = JOptionPane.showInputDialog("Enter Book ID to delete:");
         if (idStr == null || idStr.isEmpty()) return;
 

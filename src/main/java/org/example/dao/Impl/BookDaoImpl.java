@@ -11,22 +11,32 @@ import java.util.List;
 
 public class BookDaoImpl implements BookDao {
     @Override
-    public boolean createBook(Book book) {
+    public Book createBook(Book book) {
         String sql = "INSERT INTO books (title, id_author, publication_year, availability) VALUES (?, ?, ?, ?)";
+
         try (Connection conn = ConfigDb.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+
             ps.setString(1, book.getTitle());
-            ps.setInt(2, book.getAuthor().getId());   // ← aquí va 0 si no se setea antes
+            ps.setInt(2, book.getAuthor().getId());
             ps.setInt(3, book.getYear_publication());
             ps.setInt(4, book.isAvailability());
-            ps.executeUpdate();
-            ResultSet rs = ps.getGeneratedKeys();
-            if (rs.next()) book.setId(rs.getInt(1));
-            return true;
+
+            int rowsAffected = ps.executeUpdate();
+
+            if (rowsAffected > 0) {
+                ResultSet rs = ps.getGeneratedKeys();
+                if (rs.next()) {
+                    book.setId(rs.getInt(1));
+                }
+                return book; // Devuelve el libro con su ID generado
+            } else {
+                throw new SQLException("No se pudo crear el libro, no se insertaron filas.");
+            }
 
         } catch (SQLException e) {
             System.out.println("Error al crear libro: " + e.getMessage());
-            return false;
+            return null;
         }
     }
 

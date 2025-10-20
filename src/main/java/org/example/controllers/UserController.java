@@ -27,9 +27,8 @@ public class UserController {
             JOptionPane.showMessageDialog(null, "Book cannot be null");
             return;
         }
-
-        boolean created = bookService.addBook(book);
-        if (created) {
+        Book created = bookService.addBook(book);
+        if (created != null) {
             JOptionPane.showMessageDialog(null, "Book created successfully");
         } else {
             JOptionPane.showMessageDialog(null, "Failed to create book");

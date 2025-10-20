@@ -22,12 +22,10 @@ public class PartnerController {
     // Crear un préstamo
     public boolean loanBook(Partner partner, Book book) {
 
-
         if (partner == null || book == null) {
             JOptionPane.showMessageDialog(null, "Partner or Book is null");
             return false;
         }
-
         boolean success = loanService.createLoan(partner, book);
         if (success) {
             JOptionPane.showMessageDialog(null, "Loan created successfully");
@@ -72,7 +70,6 @@ public class PartnerController {
             }
             JOptionPane.showMessageDialog(null, sb.toString());
         }
-
         return books;
     }
 
@@ -82,7 +79,6 @@ public class PartnerController {
             JOptionPane.showMessageDialog(null, "Loan is null");
             return;
         }
-
         boolean success = loanService.returnLoan(loan.getId());
         if (success) {
             JOptionPane.showMessageDialog(null, "Loan returned successfully");

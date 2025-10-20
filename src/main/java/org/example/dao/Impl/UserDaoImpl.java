@@ -13,29 +13,32 @@ import java.util.List;
 
 public class UserDaoImpl implements UserDao {
     @Override
-    public boolean createUser(Users user) {
+    public Users createUser(Users user) {
         String sql = "INSERT INTO users (name,email,password,id_rol) VALUES (?,?,?,?)";
         try (Connection conn = ConfigDb.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
+             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
-            ps.setString(1,user.getName());
-            ps.setString(2,user.getEmail());
-            ps.setString(3,user.getPassword());
-            ps.setInt(4,user.getRol().getId());
-            ps.executeUpdate();
+            ps.setString(1, user.getName());
+            ps.setString(2, user.getEmail());
+            ps.setString(3, user.getPassword());
+            ps.setInt(4, user.getRol().getId());
 
-            ResultSet rs = ps.getGeneratedKeys();
-            if (rs.next()){
-                user.setId(rs.getInt(1));
+            int rowsAffected = ps.executeUpdate();
+
+            if (rowsAffected > 0) {
+                ResultSet rs = ps.getGeneratedKeys();
+                if (rs.next()) {
+                    user.setId(rs.getInt(1));
+                }
+                return user;
             }
-            return true;
         } catch (SQLException e){
-            System.out.println("Error al crear usuario: " + e.getMessage());
-            return false;
+            System.out.println("❌ Error al crear usuario: " + e.getMessage());
         }
-    }
+        return null;
+        }
 
-    @Override
+        @Override
     public Users findByEmail(String email) {
         String sql = """
         SELECT 

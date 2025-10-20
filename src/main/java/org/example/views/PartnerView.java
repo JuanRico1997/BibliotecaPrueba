@@ -9,11 +9,11 @@ import javax.swing.*;
 import java.util.List;
 
 public class PartnerView {
-    private final PartnerController controller;
+    private final PartnerController partnerController;
     private final Partner loggedPartner;
 
     public PartnerView(PartnerController controller, Partner loggedPartner) {
-        this.controller = controller;
+        this.partnerController = controller;
         this.loggedPartner = loggedPartner;
     }
 
@@ -45,13 +45,13 @@ public class PartnerView {
     }
 
     private void viewAllBooks() {
-        List<Book> books = controller.viewAllBooks();
+        List<Book> books = partnerController.viewAllBooks();
         // Los libros ya se muestran dentro del controller
     }
 
     private void loanBook() {
 
-        List<Book> books = controller.viewAllBooks();
+        List<Book> books = partnerController.viewAllBooks();
         String input = JOptionPane.showInputDialog("Enter Book ID to loan:");
         if (input == null || input.isEmpty()) return;
 
@@ -61,7 +61,7 @@ public class PartnerView {
             Book book = books.stream().filter(b -> b.getId() == bookId).findFirst().orElse(null);
 
             if (book != null) {
-                controller.loanBook(loggedPartner, book);
+                partnerController.loanBook(loggedPartner, book);
             } else {
                 JOptionPane.showMessageDialog(null, "Book not found.");
             }
@@ -71,7 +71,7 @@ public class PartnerView {
     }
 
     private void viewActiveLoans() {
-        List<Loan> loans = controller.viewLoans(loggedPartner);
+        List<Loan> loans = partnerController.viewLoans(loggedPartner);
         if (loans.isEmpty()) return;
 
         StringBuilder sb = new StringBuilder("Active Loans:\n");
@@ -86,7 +86,7 @@ public class PartnerView {
 
     private void returnLoan() {
 
-        List<Loan> loans = controller.viewLoans(loggedPartner);
+        List<Loan> loans = partnerController.viewLoans(loggedPartner);
         if (loans.isEmpty()) return;
 
         StringBuilder sb = new StringBuilder("Your Active Loans:\n\n");
@@ -107,7 +107,7 @@ public class PartnerView {
             Loan loan = loans.stream().filter(l -> l.getId() == loanId).findFirst().orElse(null);
 
             if (loan != null) {
-                controller.returnLoan(loan);
+                partnerController.returnLoan(loan);
             } else {
                 JOptionPane.showMessageDialog(null, "Loan not found.");
             }

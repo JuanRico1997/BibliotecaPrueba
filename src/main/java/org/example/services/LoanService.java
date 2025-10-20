@@ -24,7 +24,7 @@ public class LoanService {
         if (book == null || partner == null) return false;
 
         Book bookInDb = bookService.findBookById(book.getId());
-        if (bookInDb == null || bookInDb.isAvailability() < 0){
+        if (bookInDb == null || bookInDb.isAvailability() <= 0){
             System.out.println("El libro no esta disponible");
             return false;
         }

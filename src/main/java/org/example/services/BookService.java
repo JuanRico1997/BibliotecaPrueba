@@ -15,16 +15,15 @@ public class BookService {
         this.bookDao = bookDao;
         this.authorService = authorService;
     }
-
     public BookService() {
 
     }
-
-    public BookService(BookDaoImpl bookDao) {
+    public BookService(BookDao bookDao) {
+        this.bookDao = bookDao;
     }
 
 
-    public boolean addBook(Book book){
+    public Book addBook(Book book){
         Author author = book.getAuthor();
         if (author != null){
             Author existing = authorService.findByName(author.getName());
